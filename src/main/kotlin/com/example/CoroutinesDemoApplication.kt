@@ -1,8 +1,5 @@
 package com.example
 
-import kotlinx.coroutines.experimental.Unconfined
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.reactive.publish
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.web.bind.annotation.GetMapping
@@ -15,8 +12,8 @@ fun main(args: Array<String>) {
     SpringApplication.run(CoroutinesDemoApplication::class.java, *args)
 }
 
-suspend fun sayHello(): String {
-    delay(1000)
+fun sayHello(): String {
+    Thread.sleep(1000)
     return "Hello, world"
 }
 
@@ -24,7 +21,7 @@ suspend fun sayHello(): String {
 class IndexController {
 
     @GetMapping("/")
-    fun index() = publish(Unconfined) {
-        send(sayHello())
+    fun index(): String {
+        return sayHello()
     }
 }
